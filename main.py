@@ -8,25 +8,39 @@ import time
 from telegram import Update
 from telegram.ext import Updater, CommandHandler, CallbackContext
 
-FIRST_NAMES = [
-    'Вася',
-    'Петя',
-    'Юра'
-]
 
-SECOND_NAMES = [
-    'Иванов',
-    'Петров',
-    'Судаков'
-]
+# random.seed(time.time() / time.perf_counter() * time.process_time())
+# random.seed(len(first_name) * time.time() / time.perf_counter() * time.process_time())
+
+
+def gen_first_name():
+    with open('first_names.txt', 'rt') as f:
+        first_names = list()
+        lines = f.readlines()
+        for first_name in lines:
+            if first_name[-1] == '\n':
+                first_name = first_name[:-1]
+            first_names.append(first_name)
+        # print(lines)
+        # print(first_names)
+        return random.choice(first_names)
+
+
+def gen_second_name():
+    with open('second_names.txt', 'rt') as f:
+        second_names = list()
+        lines = f.readlines()
+        for second_name in lines:
+            if second_name[-1] == '\n':
+                second_name = second_name[:-1]
+            second_names.append(second_name)
+        # print(lines)
+        # print(second_names)
+        return random.choice(second_names)
 
 
 def gen_name():
-    random.seed(time.time() / time.perf_counter() * time.process_time())
-    first_name = random.choice(FIRST_NAMES)
-    random.seed(len(first_name) * time.time() / time.perf_counter() * time.process_time())
-    second_name = random.choice(SECOND_NAMES)
-    return f'{first_name} {second_name}'
+    return f'{gen_first_name()} {gen_second_name()}'
 
 
 # включаем логгирование
